@@ -3975,20 +3975,20 @@ public class IODispatcherTest {
                         "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8\r\n" +
                         "Cookie: _ga=GA1.1.2124932001.1573824669; _gid=GA1.1.392867896.1580123365\r\n" +
                         "\r\n",
-                "HTTP/1.1 200 OK\n" +
-                        "Server: questDB/1.0\n" +
-                        "Date: Thu, 1 Jan 1970 00:00:00 GMT\n" +
-                        "Transfer-Encoding: chunked\n" +
-                        "Content-Type: text/csv; charset=utf-8\n" +
-                        "Content-Disposition: attachment; filename=\"questdb-query-0.csv\"\n" +
-                        "Keep-Alive: timeout=5, max=10000\n" +
-                        "\n" +
-                        "0a\n" +
-                        "\"null\"\n" +
-                        "\n" +
-                        "\n" +
-                        "00\n" +
-                        "\n"
+                "HTTP/1.1 200 OK\r\n" +
+                        "Server: questDB/1.0\r\n" +
+                        "Date: Thu, 1 Jan 1970 00:00:00 GMT\r\n" +
+                        "Transfer-Encoding: chunked\r\n" +
+                        "Content-Type: text/csv; charset=utf-8\r\n" +
+                        "Content-Disposition: attachment; filename=\"questdb-query-0.csv\"\r\n" +
+                        "Keep-Alive: timeout=5, max=10000\r\n" +
+                        "\r\n" +
+                        "0a\r\n" +
+                        "\"null\"\r\n" +
+                        "\r\n" +
+                        "\r\n" +
+                        "00\r\n" +
+                        "\r\n"
                 , 1);
     }
 
