@@ -31,11 +31,10 @@ import io.questdb.griffin.FunctionFactory;
 import io.questdb.griffin.SqlExecutionContext;
 import io.questdb.griffin.engine.functions.TimestampFunction;
 import io.questdb.griffin.engine.functions.UnaryFunction;
-import io.questdb.griffin.engine.functions.constants.TimestampConstant;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastLongToTimestampFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastLongToTimestampFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Ln)";

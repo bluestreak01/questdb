@@ -34,7 +34,7 @@ import io.questdb.griffin.engine.functions.UnaryFunction;
 import io.questdb.std.*;
 import io.questdb.std.str.CharSink;
 
-public class CastDoubleToLong256FunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastDoubleToLong256FunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Dh)";

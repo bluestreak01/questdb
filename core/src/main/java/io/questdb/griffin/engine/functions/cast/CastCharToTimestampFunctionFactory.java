@@ -33,7 +33,7 @@ import io.questdb.griffin.engine.functions.AbstractUnaryTimestampFunction;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastCharToTimestampFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastCharToTimestampFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(An)";

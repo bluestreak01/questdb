@@ -32,7 +32,7 @@ import io.questdb.griffin.engine.functions.constants.NullBinConstant;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastStrToBinaryFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastStrToBinaryFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Su)";

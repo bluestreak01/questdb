@@ -36,7 +36,7 @@ import io.questdb.std.Numbers;
 import io.questdb.std.NumericException;
 import io.questdb.std.ObjList;
 
-public class CastSymbolToTimestampFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastSymbolToTimestampFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Kn)";

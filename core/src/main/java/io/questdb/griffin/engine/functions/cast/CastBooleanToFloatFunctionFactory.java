@@ -34,7 +34,7 @@ import io.questdb.griffin.engine.functions.UnaryFunction;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastBooleanToFloatFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastBooleanToFloatFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Tf)";

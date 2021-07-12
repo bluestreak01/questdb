@@ -27,6 +27,7 @@ package io.questdb.griffin.engine.functions.cast;
 import io.questdb.cairo.CairoConfiguration;
 import io.questdb.cairo.sql.Function;
 import io.questdb.cairo.sql.Record;
+import io.questdb.griffin.FunctionFactory;
 import io.questdb.griffin.SqlExecutionContext;
 import io.questdb.griffin.engine.functions.StrFunction;
 import io.questdb.griffin.engine.functions.UnaryFunction;
@@ -38,7 +39,7 @@ import io.questdb.std.ObjList;
 import io.questdb.std.str.CharSink;
 import io.questdb.std.str.StringSink;
 
-public class CastDoubleToStrFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastDoubleToStrFunctionFactory implements FunctionFactory {
 
     @Override
     public String getSignature() {

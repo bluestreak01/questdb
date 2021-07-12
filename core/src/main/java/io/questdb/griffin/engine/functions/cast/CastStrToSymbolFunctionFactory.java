@@ -40,7 +40,7 @@ import io.questdb.std.Chars;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastStrToSymbolFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastStrToSymbolFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Sk)";

@@ -34,7 +34,7 @@ import io.questdb.griffin.engine.functions.UnaryFunction;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastDoubleToCharFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastDoubleToCharFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Da)";

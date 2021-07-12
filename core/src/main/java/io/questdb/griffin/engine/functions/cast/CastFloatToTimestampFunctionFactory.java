@@ -35,7 +35,7 @@ import io.questdb.std.IntList;
 import io.questdb.std.Numbers;
 import io.questdb.std.ObjList;
 
-public class CastFloatToTimestampFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastFloatToTimestampFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Fn)";

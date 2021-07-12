@@ -35,7 +35,7 @@ import io.questdb.griffin.engine.functions.constants.SymbolConstant;
 import io.questdb.std.IntList;
 import io.questdb.std.ObjList;
 
-public class CastBooleanToSymbolFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastBooleanToSymbolFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Tk)";

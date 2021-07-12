@@ -37,7 +37,7 @@ import io.questdb.std.NumericException;
 import io.questdb.std.ObjList;
 import io.questdb.std.datetime.millitime.DateFormatUtils;
 
-public class CastSymbolToDateFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastSymbolToDateFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(Km)";

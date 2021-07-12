@@ -527,12 +527,19 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
 
                 int sigArgTypeSum = 0;
                 for (int k = 0; k < sigArgCount; k++) {
+                    final int sigArgTypeMask = descriptor.getArgTypeMask(k);
+                    final int sigArgType = FunctionFactoryDescriptor.toType(sigArgTypeMask);
+
                     final Function arg = args.getQuick(k);
                     final boolean argIsNull = arg.getType() == ColumnType.NULL;
                     if (argIsNull) {
                         switch (match) {
                             case MATCH_NO_MATCH:
-                                match = MATCH_NULL_MATCH;
+                                if (sigArgType == ColumnType.NULL) {
+                                    match = MATCH_EXACT_MATCH;
+                                } else {
+                                    match = MATCH_NULL_MATCH;
+                                }
                                 break;
                             case MATCH_EXACT_MATCH:
                                 match = MATCH_PARTIAL_MATCH;
@@ -544,7 +551,6 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                         continue;
                     }
 
-                    final int sigArgTypeMask = descriptor.getArgTypeMask(k);
                     if (FunctionFactoryDescriptor.isConstant(sigArgTypeMask) && !arg.isConstant()) {
                         match = MATCH_NO_MATCH; // no match
                         break;
@@ -557,16 +563,13 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                         break;
                     }
 
-                    final int sigArgType = FunctionFactoryDescriptor.toType(sigArgTypeMask);
-
-
                     if (sigArgType == arg.getType()) {
                         switch (match) {
                             case MATCH_NO_MATCH: // was it no match
                                 match = MATCH_EXACT_MATCH;
                                 break;
                             case MATCH_NULL_MATCH:
-                                match = MATCH_EXACT_MATCH; // null is a wildcard
+                                match = MATCH_PARTIAL_MATCH; // this is mixed match, null and exact
                                 break;
                             case MATCH_FUZZY_MATCH: // was it fuzzy match ?
                                 match = MATCH_PARTIAL_MATCH; // this is mixed match, fuzzy and exact
@@ -686,12 +689,6 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
 
         for (int k = 0; k < candidateSigArgCount; k++) {
             final Function arg = args.getQuick(k);
-            if (arg.getType() == ColumnType.NULL && candidate.isCast()) {
-                assert k + 2 == candidateSigArgCount; // cast(var as type)
-                final int type = args.getQuick(k + 1).getType();
-                LOG.debug().$("call ").$(node).$(" -> ").$(type).$();
-                return Constants.getNullConstant(type);
-            }
             final int sigArgType = FunctionFactoryDescriptor.toType(candidateDescriptor.getArgTypeMask(k));
             if (arg.getType() == ColumnType.DOUBLE && arg.isConstant() && Double.isNaN(arg.getDouble(null))) {
                 // substitute NaNs with appropriate types
@@ -700,8 +697,7 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                 } else if (sigArgType == ColumnType.INT) {
                     args.setQuick(k, IntConstant.NULL);
                 }
-            }
-            else if ((arg.getType() == ColumnType.STRING  || arg.getType() == ColumnType.SYMBOL) && sigArgType == ColumnType.TIMESTAMP) {
+            } else if ((arg.getType() == ColumnType.STRING || arg.getType() == ColumnType.SYMBOL) && sigArgType == ColumnType.TIMESTAMP) {
                 // convert arguments if necessary
                 int position = argPositions.getQuick(k);
                 if (arg.isConstant()) {

@@ -35,7 +35,7 @@ import io.questdb.std.IntList;
 import io.questdb.std.Numbers;
 import io.questdb.std.ObjList;
 
-public class CastIntToFloatFunctionFactory extends AbstractEntityCastFunctionFactory {
+public class CastIntToFloatFunctionFactory implements FunctionFactory {
     @Override
     public String getSignature() {
         return "cast(If)";
