@@ -42,12 +42,12 @@ stages:
           - bash: |
               sudo apt-get update
               sudo apt-get install awscli
-              export AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)
-              export AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY)
               aws sts get-caller-identity
               aws autoscaling set-desired-capacity --auto-scaling-group-name ondemand-pipeline-dev --desired-capacity 1
             env:
-              PR_ID: $(System.PullRequest.PullRequestNumber)
+              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+              AWS_DEFAULT_REGION: eu-west-1
             name: start_agent
             displayName: 'Start ARM build agent'
       - job: RunOn
