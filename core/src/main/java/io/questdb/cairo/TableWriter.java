@@ -4621,11 +4621,12 @@ public class TableWriter implements Closeable {
         public Row newRow(long timestamp) {
             bumpMasterRef();
             txFile.append();
-            if (timestamp == Numbers.LONG_NaN) {
-                throw CairoException.instance(ff.errno()).put("Cannot insert rows with a null timestamp. Table=").put(path);
-            } else if (timestamp >= txFile.getMaxTimestamp()) {
+            if (timestamp >= txFile.getMaxTimestamp()) {
                 updateMaxTimestamp(timestamp);
                 return row;
+            }
+            if (timestamp == Numbers.LONG_NaN) {
+                throw CairoException.instance(ff.errno()).put("Cannot insert rows with a null timestamp. Table=").put(path);
             }
             throw CairoException.instance(ff.errno()).put("Cannot insert rows out of order. Table=").put(path);
         }

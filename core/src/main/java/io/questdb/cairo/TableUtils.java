@@ -422,7 +422,7 @@ public final class TableUtils {
         // min timestamp value in table
         txMem.putLong(TX_OFFSET_MIN_TIMESTAMP, Long.MAX_VALUE);
         // max timestamp value in table
-        txMem.putLong(TX_OFFSET_MAX_TIMESTAMP, Long.MIN_VALUE);
+        txMem.putLong(TX_OFFSET_MAX_TIMESTAMP, Numbers.LONG_NaN + 1);
         // structure version
         txMem.putLong(TX_OFFSET_STRUCT_VERSION, 0);
         // data version
