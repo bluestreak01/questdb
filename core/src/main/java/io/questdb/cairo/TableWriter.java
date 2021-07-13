@@ -4621,7 +4621,7 @@ public class TableWriter implements Closeable {
         public Row newRow(long timestamp) {
             bumpMasterRef();
             txFile.append();
-            if (timestamp == Numbers.LONG_NaN) {
+            if (timestamp < 0) {
                 throw CairoException.instance(ff.errno()).put("Cannot insert rows with a null timestamp. Table=").put(path);
             } else if (timestamp >= txFile.getMaxTimestamp()) {
                 updateMaxTimestamp(timestamp);
