@@ -47,7 +47,7 @@ public class TxReader implements Closeable {
     private final Timestamps.TimestampFloorMethod timestampFloorMethod;
     protected Path path;
     protected long minTimestamp;
-    protected long maxTimestamp = Numbers.LONG_NaN + 1; // Numbers.LONG_NaN is null
+    protected long maxTimestamp;
     protected long txn;
     protected int symbolsCount;
     protected long dataVersion;
