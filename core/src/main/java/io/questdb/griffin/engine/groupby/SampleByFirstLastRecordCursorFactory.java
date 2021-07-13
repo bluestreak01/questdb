@@ -67,18 +67,15 @@ public class SampleByFirstLastRecordCursorFactory implements RecordCursorFactory
             int configPageSize) throws SqlException {
         this.base = base;
         this.groupBySymbolColIndex = symbolFilter.getColumnIndex();
-
         this.queryToFrameColumnMapping = new int[columns.size()];
         this.firstLastIndexByCol = new int[columns.size()];
         this.crossFrameRow = new DirectLongList(columns.size());
         this.crossFrameRow.setPos(columns.size());
-
         this.groupByMetadata = groupByMetadata;
         this.timestampIndex = timestampIndex;
         buildFirstLastIndex(firstLastIndexByCol, queryToFrameColumnMapping, metadata, columns, timestampIndex);
         int blockSize = metadata.getIndexValueBlockCapacity(groupBySymbolColIndex);
         this.pageSize = configPageSize < 16 ? Math.max(blockSize, 16) : configPageSize;
-
         this.maxSamplePeriodSize = this.pageSize * 4;
         this.timestampSampler = timestampSampler;
         int outSize = pageSize << ITEMS_PER_OUT_ARRAY_SHIFT;
@@ -98,7 +95,7 @@ public class SampleByFirstLastRecordCursorFactory implements RecordCursorFactory
     }
 
     @Override
-    public RecordCursor getCursor(SqlExecutionContext executionContext) {
+    public RecordCursor getCursor(SqlExecutionContext executionContext) throws SqlException {
         PageFrameCursor pageFrameCursor = base.getPageFrameCursor(executionContext);
         int groupByIndexKey = symbolFilter.getSymbolFilterKey();
         if (groupByIndexKey == SymbolMapReader.VALUE_NOT_FOUND) {
