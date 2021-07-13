@@ -183,19 +183,19 @@ stages:
           #   inputs:
           #     pathToPublish: $(ARCHIVED_LOGS)
           #     artifactName: MavenFailedTestsLogs
-      - job: StopArmAgent
-        displayName: 'Stop ARM Agent'
-        pool:
-          vmImage: "ubuntu-latest"
-        steps:
-          - checkout: none
-          - bash: |
-              sudo apt-get update
-              sudo apt-get install awscli
-              aws autoscaling set-desired-capacity --auto-scaling-group-name ondemand-pipeline-dev --desired-capacity 0
-            env:
-              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-              AWS_DEFAULT_REGION: eu-west-1
-            name: stop_agent
-            displayName: 'Stop ARM build agent'
+      # - job: StopArmAgent
+      #   displayName: 'Stop ARM Agent'
+      #   pool:
+      #     vmImage: "ubuntu-latest"
+      #   steps:
+      #     - checkout: none
+      #     - bash: |
+      #         sudo apt-get update
+      #         sudo apt-get install awscli
+      #         aws autoscaling set-desired-capacity --auto-scaling-group-name ondemand-pipeline-dev --desired-capacity 0
+      #       env:
+      #         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+      #         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+      #         AWS_DEFAULT_REGION: eu-west-1
+      #       name: stop_agent
+      #       displayName: 'Stop ARM build agent'
