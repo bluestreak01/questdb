@@ -144,7 +144,7 @@ public class InsertNullTest extends AbstractGriffinTest {
                 );
                 Assert.fail();
             } catch (CairoException expected) {
-                Assert.assertTrue(expected.getMessage().contains("Cannot insert rows with a null timestamp."));
+                Assert.assertTrue(expected.getMessage().contains("Cannot insert rows before 1970-01-01"));
             }
         });
     }
