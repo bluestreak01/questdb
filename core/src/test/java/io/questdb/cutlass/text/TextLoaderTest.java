@@ -2742,9 +2742,9 @@ public class TextLoaderTest extends AbstractGriffinTest {
                             "],\"timestampIndex\":0}";
 
                     String expected = "ts\tbyte\tshort\tchar\tint\tlong\tboolean\tfloat\tdouble\tstring\tsymbol\tlong256\ttimestamp\tdate\n" +
-                            "2021-07-09T19:15:08.000000Z\t0\t0\t\tNaN\tNaN\tfalse\tNaN\tNaN\t\t\t\t\t\n" +
+                            "2021-07-09T19:15:08.000000Z\t0\t0\t\tNaN\tNaN\tfalse\tNaN\tNaN\tnull\t\t\t\t\n" +
                             "2021-07-09T19:15:09.000903Z\t0\t0\t\tNaN\tNaN\tfalse\tNaN\tNaN\t\t\t\t\t\n" +
-                            "2021-07-09T19:15:11.001000Z\t0\t0\t\tNaN\tNaN\tfalse\tNaN\tNaN\t\t\t\t\t\n";
+                            "2021-07-09T19:15:11.001000Z\t0\t0\t\tNaN\tNaN\tfalse\tNaN\tNaN\tnull\t\t\t\t\n";
 
                     String csv = "ts,byte,short,char,int,long,boolean,float,double,string,symbol,long256,timestamp,date\n" +
                             "2021-07-09T19:15:08.000000Z,null,null,null,null,null,null,null,null,null,null,null,null,null\n" +
