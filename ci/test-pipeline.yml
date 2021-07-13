@@ -42,6 +42,7 @@ stages:
           - bash: |
               sudo apt-get update
               sudo apt-get install awscli
+              aws autoscaling set-desired-capacity --auto-scaling-group-name ondemand-pipeline-dev --desired-capacity 1
             env:
               PR_ID: $(System.PullRequest.PullRequestNumber)
             name: start_agent
