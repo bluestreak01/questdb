@@ -11,6 +11,7 @@ variables:
   DIFF_CONVER_THRESHOLD_PCT: 50
 
 stages:
+
   - stage: RunTestsBranches
     displayName: "Running tests"
     jobs:
@@ -38,6 +39,13 @@ stages:
               PR_ID: $(System.PullRequest.PullRequestNumber)
             name: check_changes
             displayName: 'Check changed files'
+          - bash: |
+              sudo apt-get update
+              sudo apt-get install awscli
+            env:
+              PR_ID: $(System.PullRequest.PullRequestNumber)
+            name: start_agent
+            displayName: 'Start ARM build agent'
       - job: RunOn
         displayName: "on"
         dependsOn: CheckChanges
