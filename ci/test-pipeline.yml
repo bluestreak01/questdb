@@ -97,6 +97,8 @@ stages:
             fetchDepth: 1
             lfs: false
             submodules: false
+          - bash: java --version; env
+            displayName: "test java"          
           - bash: sudo sysctl -w fs.file-max=500000
             displayName: "Increase file count on Linux"
             condition: eq(variables['Agent.OS'], 'Linux')
