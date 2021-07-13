@@ -53,8 +53,7 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
     private static final int MATCH_NO_MATCH = 0;
     private static final int MATCH_FUZZY_MATCH = 1;
     private static final int MATCH_PARTIAL_MATCH = 2;
-    private static final int MATCH_NULL_MATCH = 3;
-    private static final int MATCH_EXACT_MATCH = 4;
+    private static final int MATCH_EXACT_MATCH = 3;
 
     private final ObjList<Function> mutableArgs = new ObjList<>();
     private final IntList mutableArgPositions = new IntList();
@@ -527,29 +526,8 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
 
                 int sigArgTypeSum = 0;
                 for (int k = 0; k < sigArgCount; k++) {
-                    final int sigArgTypeMask = descriptor.getArgTypeMask(k);
-                    final int sigArgType = FunctionFactoryDescriptor.toType(sigArgTypeMask);
-
                     final Function arg = args.getQuick(k);
-                    final boolean argIsNull = arg.getType() == ColumnType.NULL;
-                    if (argIsNull) {
-                        switch (match) {
-                            case MATCH_NO_MATCH:
-                                if (sigArgType == ColumnType.NULL) {
-                                    match = MATCH_EXACT_MATCH;
-                                } else {
-                                    match = MATCH_NULL_MATCH;
-                                }
-                                break;
-                            case MATCH_EXACT_MATCH:
-                                match = MATCH_PARTIAL_MATCH;
-                                break;
-                            default:
-                                // don't change match otherwise
-                                break;
-                        }
-                        continue;
-                    }
+                    final int sigArgTypeMask = descriptor.getArgTypeMask(k);
 
                     if (FunctionFactoryDescriptor.isConstant(sigArgTypeMask) && !arg.isConstant()) {
                         match = MATCH_NO_MATCH; // no match
@@ -563,13 +541,12 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                         break;
                     }
 
+                    final int sigArgType = FunctionFactoryDescriptor.toType(sigArgTypeMask);
+
                     if (sigArgType == arg.getType()) {
                         switch (match) {
                             case MATCH_NO_MATCH: // was it no match
                                 match = MATCH_EXACT_MATCH;
-                                break;
-                            case MATCH_NULL_MATCH:
-                                match = MATCH_PARTIAL_MATCH; // this is mixed match, null and exact
                                 break;
                             case MATCH_FUZZY_MATCH: // was it fuzzy match ?
                                 match = MATCH_PARTIAL_MATCH; // this is mixed match, fuzzy and exact
@@ -583,7 +560,7 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
 
                     final int argType = arg.getType();
 
-                    int overloadDistance = ColumnType.overloadDistance(argType, sigArgType);
+                    int overloadDistance = ColumnType.overloadDistance(argType, sigArgType); // NULL to any is 0
                     sigArgTypeSum += overloadDistance;
                     // Overload with cast to higher precision
                     boolean overloadPossible = overloadDistance != ColumnType.NO_OVERLOAD;
@@ -612,10 +589,11 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                     if (overloadPossible) {
                         switch (match) {
                             case MATCH_NO_MATCH: // no match?
-                                match = MATCH_FUZZY_MATCH; // upgrade to fuzzy match
-                                break;
-                            case MATCH_NULL_MATCH:
-                                match = MATCH_PARTIAL_MATCH; // downgrade to partial match
+                                if (argType == ColumnType.NULL) {
+                                    match = MATCH_PARTIAL_MATCH;
+                                } else {
+                                    match = MATCH_FUZZY_MATCH; // upgrade to fuzzy match
+                                }
                                 break;
                             case MATCH_EXACT_MATCH: // was it full match so far? ? oh, well, fuzzy now
                                 match = MATCH_PARTIAL_MATCH; // downgrade
@@ -640,7 +618,7 @@ public class FunctionParser implements PostOrderTreeTraversalAlgo.Visitor {
                     // have to ensure all args are indeed constant
 
 
-                    if (match != MATCH_EXACT_MATCH && match != MATCH_NULL_MATCH) {
+                    if (match != MATCH_EXACT_MATCH) {
                         if (candidateSigArgTypeSum > sigArgTypeSum || bestMatch < match) {
                             candidate = factory;
                             candidateDescriptor = descriptor;

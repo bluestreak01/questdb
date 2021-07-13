@@ -34,6 +34,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class FunctionParserCastFunctionsNullTest extends BaseFunctionFactoryTest {
 
@@ -80,6 +81,7 @@ public class FunctionParserCastFunctionsNullTest extends BaseFunctionFactoryTest
         FunctionParser functionParser = createFunctionParser();
         final GenericRecordMetadata metadata = new GenericRecordMetadata();
         for (int i = 0; i < typeNames.size(); i++) {
+            Collections.shuffle(functions);
             CharSequence type = typeNames.getQuick(i);
             Function function = parseFunction(String.format("cast(null as %s)", type), metadata, functionParser);
             Assert.assertEquals(typeNameToId.get(type), function.getType());
